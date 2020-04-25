@@ -2,3 +2,6 @@
 /WekaODF.jar
 /doc/
 /dist/
+/.document/
+/weka-package-dist/*.zip
+/weka-package-dist/*.tmp

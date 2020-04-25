@@ -1,2 +1,2 @@
 cd %~dp0
-call mvn clean install && start "" /b call rename.bat
+call mvn clean install package && start "" /b call rename.bat
