@@ -36,6 +36,7 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
+import org.jopendocument.dom.XMLFormatVersion;
 
 /**
  <!-- globalinfo-start -->
@@ -273,26 +274,32 @@ public class ODFSaver
       DefaultTableModel model = new DefaultTableModel(data.numInstances() + 1, data.numAttributes());  // +1 for header
       // header
       String[] header = new String[data.numAttributes()];
-      for (int i = 0; i < data.numAttributes(); i++)
-	header[i] = data.attribute(i).name();
+      for (int i = 0; i < data.numAttributes(); i++) {
+        header[i] = data.attribute(i).name();
+      }
       model.setColumnIdentifiers(header);
       // data
       for (int n = 0; n < data.numInstances(); n++) {
-	Instance inst = data.instance(n);
-	for (int i = 0; i < data.numAttributes(); i++) {
-	  if (inst.isMissing(i))
-	    model.setValueAt(m_MissingValue, n, i);
-	  else if (inst.attribute(i).isNumeric())
-	    model.setValueAt(inst.value(i), n, i);
-	  else
-	    model.setValueAt(inst.stringValue(i), n, i);
-	}
+        Instance inst = data.instance(n);
+        for (int i = 0; i < data.numAttributes(); i++) {
+          if (inst.isMissing(i)) {
+            model.setValueAt(m_MissingValue, n, i);
+          }
+          else if (inst.attribute(i).isNumeric()) {
+            model.setValueAt(inst.value(i), n, i);
+          }
+          else {
+            model.setValueAt(inst.stringValue(i), n, i);
+          }
+        }
       }
       SpreadSheet spreadsheet = SpreadSheet.createEmpty(model);
-      if (retrieveFile() == null)
-	spreadsheet.getPackage().save(System.out);
-      else
+      if (retrieveFile() == null) {
+        spreadsheet.getPackage().save(System.out);
+      }
+      else {
         spreadsheet.saveAs(retrieveFile());
+      }
     }
     catch (Exception e) {
       throw new IOException(e);
